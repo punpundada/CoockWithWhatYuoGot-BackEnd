@@ -84,32 +84,5 @@ const deleteRecipe = async (req, res) => {
   }
 };
 
-const getAllUserRecipe=async(req,res)=>{
-  try {
-    const userId = req.params.userId
-    if(!userId){
-      return res
-        .status(Constants.VALIDATION_ERROR)
-        .json({ isSuccess: false, data: { message: `User id not Found`}});
-    };
-
-    const allUserRecipies = await RecipeModel.find({userId})
-    
-    if(allUserRecipies){
-      return res
-        .status(Constants.OK)
-        .json({ isSuccess: true, data: { allUserRecipies,message: `Recipes of user with id ${userId} found`}});
-    }
-    else{
-      return res
-        .status(Constants.NOT_FOUND)
-        .json({ isSuccess: false, data: { message: `Recipes of user with id ${userId} not found`}});
-    }
-  } catch (error) {
-    return res
-    .status(Constants.NOT_FOUND)
-    .json({ isSuccess: false, data: { message:error.message}});
-  }
-}
 
 module.exports = { addRecipe, deleteRecipe };
