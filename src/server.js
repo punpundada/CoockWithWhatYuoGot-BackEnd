@@ -5,6 +5,7 @@ const userRouter = require('./routes/UserRoute');
 const dbConnection = require('./config/dbConnection');
 const { Constants } = require('./Constants');
 const IngredientRouter = require('./routes/IngredientRoute');
+const RecipieRouter = require('./routes/RecipeRoute');
 
 
 const app = express();
@@ -14,10 +15,9 @@ app.use(express.json())
 
 dbConnection()
 
-app.use('/api/user',userRouter)
-
+app.use('/api/user',userRouter) 
 app.use('/api/ingredient', IngredientRouter);
-
+app.use('/api/recipe',RecipieRouter);
 
 app.use((req,res)=>{
     res.status(Constants.NOT_FOUND).json({ message: 'URI Not Found' });

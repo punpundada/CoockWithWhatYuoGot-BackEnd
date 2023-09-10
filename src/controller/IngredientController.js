@@ -27,7 +27,7 @@ const addOneIngredient = async (req, res) => {
     }
 
     //creating new entry in db
-    const ingredient = IngredientModel.create({
+    const ingredient = await IngredientModel.create({
       ingredientName: ingredientName.toUpperCase(),
     });
 
@@ -208,6 +208,7 @@ const updateIngredient =async(req,res)=>{
         .status(Constants.OK)
         .json({ isSuccess: false, data: { message: error.message } });
     }
-}
+};
+
 
 module.exports = { addOneIngredient, getAllIngredients,deleteIngredient,updateIngredient };

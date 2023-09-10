@@ -7,16 +7,28 @@ const RecipeSchema = mongoose.Schema({
         type:String,
         required:[true,'Recipe name is a Required Field']
     },
-    ingredients:[{ 
-        type:Schema.Types.ObjectId,
-        ref:'Ingredient'
-    }],
     userId:{
         type:Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
+        required:[true,'UserId is a Required Field']
+    },
+    ingredientsList:[{
+        ingredientId:{
+            type:Schema.Types.ObjectId,
+            ref:'Ingredient',
+            required:[true,'Ingredients List is a Required Field']
+        },
+        quantity:String,
+    }],
+    prepTime:{
+        type:String,
+        required:[true,'Prepration Time is a Required Field']
     }
 },
 {
     timestamps:true,
 },
-)
+);
+
+ const RecipeModel = mongoose.model('Recipes',RecipeSchema);
+module.exports=RecipeModel;
