@@ -13,4 +13,4 @@ const IngredientSchema=mongoose.Schema({
 );
 
 const IngredientModel=mongoose.model('Ingredient', IngredientSchema);
-module.exports=IngredientModel;
+module.exports={IngredientModel, IngredientSchema};
