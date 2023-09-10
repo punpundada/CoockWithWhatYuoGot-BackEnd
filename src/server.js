@@ -6,6 +6,7 @@ const dbConnection = require('./config/dbConnection');
 const { Constants } = require('./Constants');
 const IngredientRouter = require('./routes/IngredientRoute');
 
+
 const app = express();
 const port = process.env.PORT || 9002;
 app.use(cors());
@@ -14,7 +15,10 @@ app.use(express.json())
 dbConnection()
 
 app.use('/api/user',userRouter)
+
 app.use('/api/ingredient', IngredientRouter);
+
+
 app.use((req,res)=>{
     res.status(Constants.NOT_FOUND).json({ message: 'URI Not Found' });
 })
