@@ -64,25 +64,61 @@ const deleteRecipe = async (req, res) => {
       return res
         .status(Constants.VALIDATION_ERROR)
         .json({ isSuccess: false, data: { message: "Recipe id is required" } });
-    };
 
-    const deletadRecipe = await RecipeModel.findByIdAndDelete({_id:id})
-    if(deletadRecipe){
-        return res
-        .status(Constants.OK)
-        .json({ isSuccess: true, data: { message: `Recipe with ${deletadRecipe._id} id Deletad`}});
-    }else{
-        return res
-        .status(Constants.VALIDATION_ERROR)
-        .json({ isSuccess: false, data: { message: "Recipe is not Deleted"}});
     }
 
+    const deletadRecipe = await RecipeModel.findByIdAndDelete({ _id: id });
+    if (deletadRecipe) {
+      return res
+        .status(Constants.OK)
+        .json({
+          isSuccess: true,
+          data: { message: `Recipe with ${deletadRecipe._id} id Deletad` },
+        });
+    } else {
+      return res
+        .status(Constants.VALIDATION_ERROR)
+        .json({ isSuccess: false, data: { message: "Recipe is not Deleted" } });
+    }
   } catch (error) {
     return res
-        .status(Constants.VALIDATION_ERROR)
-        .json({ isSuccess: false, data: { message: error.message}});
+      .status(Constants.VALIDATION_ERROR)
+      .json({ isSuccess: false, data: { message: error.message } });
   }
 };
 
+const getRecipesByIngredients = async (req, res) => {
+  const { ingredientsTosearch } = req.body;
+  try {
 
-module.exports = { addRecipe, deleteRecipe };
+    if (!ingredientsTosearch) {
+      return res
+        .status(Constants.VALIDATION_ERROR)
+        .json({
+          isSuccess: false,
+          data: { message: "Ingredient List not found" },
+        });
+    };
+
+    const recipes = await RecipeModel.find({
+      "ingredientsList.ingredientId": { $all: ingredientsTosearch },
+    });
+
+    if (recipes && recipes.length !== 0) {
+      return res
+        .status(Constants.OK)
+        .json({ isSuccess: true, data: { recipes, message: "Recipes found" } });
+    } else {
+      return res
+        .status(Constants.NOT_FOUND)
+        .json({ isSuccess: false, data: { message: "Recipes not found" } });
+    };
+  } catch (error) {
+    return res
+      .status(Constants.SERVER_ERROR)
+      .json({ isSuccess: false, data: { message: error.message } });
+  };
+};
+
+module.exports = { addRecipe, deleteRecipe, getRecipesByIngredients };
+
