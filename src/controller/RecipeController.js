@@ -16,7 +16,7 @@ const addRecipe = async (req, res) => {
       return res.status(Constants.VALIDATION_ERROR).json({
         isSuccess: false,
         data: { message: `ingredientsList should be a array type` },
-      });
+      }); 
     }
     const foundRecipe = await RecipeModel.findOne({
       recipeName: recipeName.toUpperCase(),
@@ -64,6 +64,7 @@ const deleteRecipe = async (req, res) => {
       return res
         .status(Constants.VALIDATION_ERROR)
         .json({ isSuccess: false, data: { message: "Recipe id is required" } });
+
     }
 
     const deletadRecipe = await RecipeModel.findByIdAndDelete({ _id: id });
@@ -120,3 +121,4 @@ const getRecipesByIngredients = async (req, res) => {
 };
 
 module.exports = { addRecipe, deleteRecipe, getRecipesByIngredients };
+
