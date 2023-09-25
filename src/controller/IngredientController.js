@@ -191,7 +191,7 @@ const updateIngredient =async(req,res)=>{
         const updatedIngredient = await IngredientModel.findByIdAndUpdate(
             id,
             {ingredientName },
-            {new:true}
+            {new:true}//returns new modifiend object
         );
         if(updatedIngredient){
             return res
