@@ -8,8 +8,8 @@ const RecipeModel = require("../models/RecipeModel");
 
 const userSignup = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
-    if (!firstName || !lastName || !email || !password) {
+    const { firstName, lastName, email, password, imgUrl } = req.body;
+    if (!firstName  || !email || !password ) {
       res
         .status(Constants.VALIDATION_ERROR)
         .json({ isSuccess: false, data: { message: "Missing Fields" } });
@@ -180,4 +180,54 @@ const getAllUserRecipe=async(req,res)=>{
   }
 };
 
-module.exports = { userSignup, userLogin, deleteUser,getAllUserRecipe };
+const setProfilePicture = async(req,res)=>{
+  const {imgUrl} = req.body;
+  let user = req.user;
+  if(!imgUrl){
+    return res
+    .status(Constants.VALIDATION_ERROR)
+    .json({ isSuccess: false, data: { message: `Image URL not Found`}});
+  };
+  // user.imgUrl = imgUrl;
+  const userId = user.id;
+
+
+  try {
+    const foundUser = await User.findById({_id:userId});
+    const newUser = {foundUser,imgUrl:imgUrl};
+    const updateUser =await User.findByIdAndUpdate({_id:foundUser._id} , newUser,{new:true} );
+    if(updateUser){
+      return res
+      .status(Constants.OK)
+      .json({ isSuccess: true, data: { message: `Image updated`}});
+    }
+    else{
+      return res
+      .status(Constants.SERVER_ERROR)
+      .json({ isSuccess: false, data: { message: `Image URL not updated`}});
+    }
+    
+  } catch (error) {
+    return res
+      .status(Constants.SERVER_ERROR)
+      .json({ isSuccess: false, data: { message: error.message}});
+  }
+  
+}
+
+const getProfilePicture = async(req,res)=>{
+  const user = req.user;
+  console.log(user)
+  try {
+    const foundUser = await User.findById({_id:user.id})
+    return res
+    .status(Constants.OK)
+    .json({ isSuccess: true, data: { imgUrl:foundUser.imgUrl, message:"Success" }});
+  } catch (error) {
+    return res
+    .status(Constants.SERVER_ERROR)
+    .json({ isSuccess: false, data: {  message:error.message }});
+  }
+}
+
+module.exports = { userSignup, userLogin, deleteUser,getAllUserRecipe, setProfilePicture, getProfilePicture };
