@@ -32,7 +32,7 @@ const addOneIngredient = async (req, res) => {
     });
 
     if (ingredient !== undefined || ingredient !== null) {
-      return res.status(Constants.VALIDATION_ERROR).json({
+      return res.status(Constants.CREATED).json({
         isSuccess: true,
         data: { id: ingredient._id, message: "New Ingredient is created" },
       });
