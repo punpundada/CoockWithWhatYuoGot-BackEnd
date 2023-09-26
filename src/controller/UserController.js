@@ -36,6 +36,7 @@ const userSignup = async (req, res) => {
       lastName,
       email,
       password:bcriptPassword,
+      imgUrl
     });
 
     if (user) {

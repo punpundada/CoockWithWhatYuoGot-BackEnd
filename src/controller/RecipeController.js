@@ -3,9 +3,9 @@ const RecipeModel = require("../models/RecipeModel");
 
 const addRecipe = async (req, res) => {
   try {
-    const { recipeName, userId, ingredientsList, prepTime } = req.body;
-
-    if ((recipeName === undefined || !userId || !ingredientsList, !prepTime)) {
+    const { recipeName, ingredientsList, prepTime,difficultyLevel } = req.body;
+    const user = req.user;
+    if ((recipeName === undefined  || !ingredientsList, !prepTime, !difficultyLevel)) {
       return res.status(Constants.VALIDATION_ERROR).json({
         isSuccess: false,
         data: { message: "Missing Fields" },
@@ -34,9 +34,10 @@ const addRecipe = async (req, res) => {
 
     const newRecipe = await RecipeModel.create({
       recipeName,
-      userId,
+      userId:user.id,
       ingredientsList,
       prepTime,
+      difficultyLevel
     });
 
     if (newRecipe) {
