@@ -31,6 +31,13 @@ const RecipeSchema = mongoose.Schema(
       ref: "DifficultyLevel",
       required: [true, "Difficulty Level is a Required Field"],
     },
+    imgUrls: [
+      {
+        imgUrl: {
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

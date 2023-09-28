@@ -155,7 +155,8 @@ const userLogin = async (req, res) => {
 
 const getAllUserRecipe=async(req,res)=>{
   try {
-    const {userId} = req.body
+    const user = req.user;
+    const userId = user.id;
     if(!userId){
       return res
         .status(Constants.VALIDATION_ERROR)
