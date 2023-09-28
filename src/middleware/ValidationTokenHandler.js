@@ -14,6 +14,7 @@ const ValidateToken = async (req, res, next) => {
             .json({ isSuccess: false, data: { message: err.message } });
         }
         req.user = decoded.user;
+        
         next();
       });
     } else {

@@ -9,7 +9,7 @@ const userRouter = express.Router();
 userRouter.post('/signup',userSignup);
 userRouter.post('/login',userLogin);
 userRouter.delete('/delete/:id',ValidateToken, deleteUser);
-userRouter.post('/recipe/getAll', ValidateToken,getAllUserRecipe)
+userRouter.get('/recipe/getAll', ValidateToken,getAllUserRecipe)
 userRouter.post('/setProfile',ValidateToken,setProfilePicture)
 userRouter.get('/getProfile',ValidateToken,getProfilePicture)
 module.exports=userRouter; 
