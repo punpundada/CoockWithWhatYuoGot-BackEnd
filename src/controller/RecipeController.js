@@ -225,10 +225,59 @@ const deleteOneImage = async (req, res) => {
   }
 };
 
+const getAllRecipes = async (req,res)=>{
+  try {
+    const foundRecipes = await RecipeModel.find();
+    if(foundRecipes){
+
+      return res.status(Constants.OK).json({
+        isSuccess: true,
+        data: { recipes:foundRecipes,message: `Recipe Found` },
+      });
+    }
+    else{
+      return res.status(Constants.FORBIDDEN).json({
+        isSuccess: false,
+        data: {message: `Recipe Not Found` },
+      });
+    }
+  } catch (error) {
+    return res.status(Constants.SERVER_ERROR).json({
+      isSuccess: false,
+      data: {message:error.message},
+    });
+  }
+}
+
+const getOneRecipe = async (req,res)=>{
+  const recipeId = req.params.id;
+  try {
+    const foundRecipe = await RecipeModel.findById(recipeId);
+    if(foundRecipe){
+      return res.status(Constants.OK).json({
+        isSuccess: true,
+        data: { recipes:foundRecipe,message: `Recipe Found` },
+      });
+    }else{
+      return res.status(Constants.VALIDATION_ERROR).json({
+        isSuccess: false,
+        data: { message: `Recipe not Found` },
+      });
+    }
+  } catch (error) {
+    return res.status(Constants.SERVER_ERROR).json({
+      isSuccess: false,
+      data: { message: error.message },
+    });
+  }
+};
+
 module.exports = {
   addRecipe,
   deleteRecipe,
   getRecipesByIngredients,
   addRecipeImageUrl,
   deleteOneImage,
+  getAllRecipes,
+  getOneRecipe
 };
