@@ -4,7 +4,7 @@ const User = require("../models/UserModel");
 
 const addRecipe = async (req, res) => {
   try {
-    const { recipeName, ingredientsList, prepTime, difficultyLevel, imgUrls } =
+    const { recipeName, ingredientsList, prepTime, difficultyLevel, imgUrls,description } =
       req.body;
     const user = req.user;
     const userId = user.id;
@@ -47,6 +47,7 @@ const addRecipe = async (req, res) => {
       recipeName: recipeName,
       userId,
       ingredientsList,
+      description,
       prepTime,
       difficultyLevel,
       imgUrls,
@@ -271,6 +272,7 @@ const getOneRecipe = async (req,res)=>{
     });
   }
 };
+
 
 module.exports = {
   addRecipe,
