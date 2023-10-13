@@ -22,6 +22,11 @@ const RecipeSchema = mongoose.Schema(
         quantity: String,
       },
     ],
+    description:{
+      type:String,
+      required:[true,'Recipe Description is a Required Field'],
+      minlength: [150, 'Description should be at least 10 characters long.'],
+    },
     prepTime: {
       type: String,
       required: [true, "Prepration Time is a Required Field"],

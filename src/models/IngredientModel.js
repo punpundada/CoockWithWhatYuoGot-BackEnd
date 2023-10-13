@@ -13,8 +13,5 @@ const IngredientSchema=mongoose.Schema({
 );
 
 const IngredientModel=mongoose.model('Ingredient', IngredientSchema);
-// <<<<<<< task.BasicNodeSetup
 module.exports={IngredientModel, IngredientSchema};
-// =======
-// module.exports=IngredientModel;
-// >>>>>>> master
+
