@@ -101,7 +101,7 @@ const deleteRecipe = async (req, res) => {
 const getRecipesByIngredients = async (req, res) => {
   const { ingredientsTosearch } = req.body;
   try {
-    if (!ingredientsTosearch) {
+    if (!ingredientsTosearch && !Array.isArray(ingredientsTosearch)) {
       return res.status(Constants.VALIDATION_ERROR).json({
         isSuccess: false,
         data: { message: "Ingredient List not found" },

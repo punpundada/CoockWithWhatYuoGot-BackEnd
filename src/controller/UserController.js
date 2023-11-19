@@ -45,6 +45,7 @@ const userSignup = async (req, res) => {
         data: {
           email,
           userId: user._id,
+          message:'User registred successfully'
         },
       });
     } else {
