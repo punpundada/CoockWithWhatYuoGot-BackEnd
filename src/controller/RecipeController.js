@@ -4,8 +4,14 @@ const User = require("../models/UserModel");
 
 const addRecipe = async (req, res) => {
   try {
-    const { recipeName, ingredientsList, prepTime, difficultyLevel, imgUrls,description } =
-      req.body;
+    const {
+      recipeName,
+      ingredientsList,
+      prepTime,
+      difficultyLevel,
+      imgUrls,
+      description,
+    } = req.body;
     const user = req.user;
     const userId = user.id;
     if (
@@ -226,40 +232,42 @@ const deleteOneImage = async (req, res) => {
   }
 };
 
-const getAllRecipes = async (req,res)=>{
+const getAllRecipes = async (req, res) => {
+  const perPageItems = 9;
   try {
-    const foundRecipes = await RecipeModel.find();
-    if(foundRecipes){
-
+    const pageNumber = req.query.page || 0;
+    const foundRecipes = await RecipeModel.find()
+      .skip(perPageItems * pageNumber)
+      .limit(perPageItems);
+    if (foundRecipes) {
       return res.status(Constants.OK).json({
         isSuccess: true,
-        data: { recipes:foundRecipes,message: `Recipe Found` },
+        data: { recipes: foundRecipes, message: `Recipe Found` },
       });
-    }
-    else{
+    } else {
       return res.status(Constants.FORBIDDEN).json({
         isSuccess: false,
-        data: {message: `Recipe Not Found` },
+        data: { message: `Recipe Not Found` },
       });
     }
   } catch (error) {
     return res.status(Constants.SERVER_ERROR).json({
       isSuccess: false,
-      data: {message:error.message},
+      data: { message: error.message },
     });
   }
-}
+};
 
-const getOneRecipe = async (req,res)=>{
+const getOneRecipe = async (req, res) => {
   const recipeId = req.params.id;
   try {
     const foundRecipe = await RecipeModel.findById(recipeId);
-    if(foundRecipe){
+    if (foundRecipe) {
       return res.status(Constants.OK).json({
         isSuccess: true,
-        data: { recipes:foundRecipe,message: `Recipe Found` },
+        data: { recipes: foundRecipe, message: `Recipe Found` },
       });
-    }else{
+    } else {
       return res.status(Constants.VALIDATION_ERROR).json({
         isSuccess: false,
         data: { message: `Recipe not Found` },
@@ -273,7 +281,6 @@ const getOneRecipe = async (req,res)=>{
   }
 };
 
-
 module.exports = {
   addRecipe,
   deleteRecipe,
@@ -281,5 +288,5 @@ module.exports = {
   addRecipeImageUrl,
   deleteOneImage,
   getAllRecipes,
-  getOneRecipe
+  getOneRecipe,
 };
