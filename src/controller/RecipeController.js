@@ -235,8 +235,15 @@ const deleteOneImage = async (req, res) => {
 const getAllRecipes = async (req, res) => {
   const perPageItems = 9;
   try {
+    let query={}
     const pageNumber = req.query.page || 0;
-    const foundRecipes = await RecipeModel.find()
+    const searchRecipe = req.query.search 
+    if(searchRecipe){
+      const searchRecipeRegex = new RegExp(searchRecipe, 'i');
+      query.recipeName={$regex:searchRecipeRegex};
+      // console.log(searchRecipeRegex)
+    }
+    const foundRecipes = await RecipeModel.find(query)
       .skip(perPageItems * pageNumber)
       .limit(perPageItems);
     if (foundRecipes) {
