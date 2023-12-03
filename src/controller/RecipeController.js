@@ -4,14 +4,8 @@ const User = require("../models/UserModel");
 
 const addRecipe = async (req, res) => {
   try {
-    const {
-      recipeName,
-      ingredientsList,
-      prepTime,
-      difficultyLevel,
-      imgUrls,
-      description,
-    } = req.body;
+    const { recipeName, ingredientsList, prepTime, difficultyLevel, imgUrls,description } =
+      req.body;
     const user = req.user;
     const userId = user.id;
     if (
